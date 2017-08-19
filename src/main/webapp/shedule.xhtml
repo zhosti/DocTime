@@ -1,0 +1,58 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:c="http://java.sun.com/jsp/jstl/core"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:p="http://primefaces.org/ui" template="template.xhtml">
+<h:head>
+	
+</h:head>
+<ui:define name="body">
+		<h:form styleClass="schedule-input-form">
+			<p:growl id="messages" showDetail="true" />
+		    <h:panelGrid id="panel" columnClasses="value" columns="2">
+				
+				<p:outputLabel for="personName" value="Име: " />
+				<p:inputText value = "#{timeSlotController.timeSlot.patient.firstName}" id="personName"/>
+				
+				<p:outputLabel for="personFamilyName" value="Фамилия" />
+				<p:inputText value = "#{timeSlotController.timeSlot.patient.lastName}" id="personFamilyName"/>
+			 	
+			 	<p:outputLabel for="phoneNumber" value="Телефонен номер" />
+				<p:inputText value = "#{timeSlotController.timeSlot.patient.phoneNumber}" id="phoneNumber"/>
+			 	
+			 	<p:outputLabel for="personEmail" value="Имейл" />
+				<p:inputText value = "#{timeSlotController.timeSlot.patient.email}" id="personEmail"/>
+		
+				
+		    </h:panelGrid>
+		    <p:schedule id="schedule" value="#{timeSlotController.eventModel}"
+	        	locale="#{messages.locale}"
+	        	minTime="9:00"
+	        	maxTime="18:30"
+	        	initialDate="#{timeSlotController.currentDate}"
+	        	styleClass="schedule-style"
+	        	widgetVar="myschedule" 
+		        view="#{timeSlotController.view}"
+		        slotMinutes="30"
+		        allDaySlot="false"
+		        aspectRatio="2.1"
+		        centerHeaderTemplate="title"
+		        resizable="false"
+		        axisFormat="H:mm"
+		        timeFormat="H:mm">
+		        	
+		        <p:ajax event="dateSelect" listener="#{timeSlotController.onDateSelect}" update="schedule" />
+		        <p:ajax event="eventSelect" listener="#{timeSlotController.onEventSelect}" update="schedule messages" />
+		 
+		    </p:schedule>
+		   		
+		   	<p:commandButton
+					value="#{messages['editWorkTimeAdminPage.buttonSave']}"
+					styleClass="blue-button"
+					ajax="true"
+					action="#{timeSlotController.save}" />
+		</h:form>
+</ui:define>
+
+</ui:composition>

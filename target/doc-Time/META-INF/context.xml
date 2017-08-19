@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context antiJARLocking="true" path="/">
+	<Resource name="jdbc/doc_sheduler" global="jdbc/doc_sheduler" auth="Container"
+		type="javax.sql.DataSource" driverClassName="org.postgresql.Driver"
+		url="jdbc:postgresql://localhost:5432/doc_sheduler" username="docadmin"
+		password="" maxActive="10" maxIdle="10" minIdle="5" maxWait="10000" />
+		
+	<Resource name="BeanManager" auth="Container"
+		type="javax.enterprise.inject.spi.BeanManager" factory="org.jboss.weld.resources.ManagerObjectFactory" />
+</Context>

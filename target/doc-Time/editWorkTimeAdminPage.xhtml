@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:k="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	template="template.xhtml">
+
+	<h:head>
+		<title>#{messages['editWorkTimeAdminPage.title']}</title>
+		<h:outputStylesheet name="main.css" library="css" />
+	</h:head>
+
+	<ui:define name="body">
+		<div class="container">
+			<div class="title">
+				<h1>#{messages['editWorkTimeAdminPage.header']}</h1>
+				<h3>#{messages['editWorkTimeAdminPage.subHeader']}</h3>
+			</div>
+			<div class="table">
+				<h:form id="myform">
+					<p:dataTable value="#{workTimeController.workingTime}" var="time" id="instable">
+
+						<p:columnGroup type="header">
+							<p:row>
+								<p:column rowspan="2"
+									headerText="#{messages['editWorkTimeAdminPage.day']}">
+									<h:outputText value="#{time.dayOfWeek}" />
+								</p:column>
+								<p:column colspan="2"
+									headerText="#{messages['editWorkTimeAdminPage.hour']}" />
+
+								<p:column rowspan="2" />
+
+							</p:row>
+
+							<p:row>
+								<p:column headerText="#{messages['editWorkTimeAdminPage.from']}" />
+								<p:column headerText="#{messages['editWorkTimeAdminPage.to']}" />
+							</p:row>
+						</p:columnGroup>
+
+						<p:column id="col1">
+							<h:outputText
+								value="#{workTimeController.getNameOfWeekDay(time.dayOfWeek,messages.locale)}" />
+						</p:column>
+						
+						<p:column id="col2" >
+					
+							<ui:repeat value="#{time.breakTime}" var="subTime">
+								<pe:timePicker value="#{subTime.startTime}" mode="popup" id="timePickStart" showCloseButton="true"  
+									 intervalMinutes="30" 
+								 styleClass="inputTime"  >
+											</pe:timePicker>
+							</ui:repeat>
+						</p:column>
+						<p:column id="col3">
+
+							<ui:repeat value="#{time.breakTime}" var="subTime" >
+								<div class="columnButtonInside">
+									<pe:timePicker value="#{subTime.endDate}" mode="popup" id="timePickEnd"   showCloseButton="true"  
+										 intervalMinutes="30"   minHour="#{workTimeController.startHour}"
+										styleClass="inputTime" showDetail="true">
+											 <p:ajax event="click" update="timePickEnd" process="@(.timePickStart)" listener="#{workTimeController.validate(subTime)}" />
+									 
+									</pe:timePicker>
+								
+									<h:commandLink
+										value="Delete"
+										action="#{workTimeController.deleteBreakTime(time.dayOfWeek,time.breakTime.indexOf(subTime))}"
+										ajax="false">
+										
+									</h:commandLink>
+								</div>
+							</ui:repeat>
+						</p:column>
+
+						<p:column rowspan="1">
+							<p:commandButton
+								value="Добави"
+								action="#{workTimeController.addBreakTime(time)}" ajax="false"
+								update="@form" />
+
+						</p:column>
+					</p:dataTable>
+
+					<p:commandButton
+						value="Запази"
+						action="#{workTimeController.saveWorkingTime()}"
+						styleClass="submitButton" />
+
+				</h:form>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>

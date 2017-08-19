@@ -1,0 +1,260 @@
+/*** override primefaces style ***/
+
+
+/* Main container*/
+
+
+html, body {
+   	height: 100%;
+}
+
+html {
+    display: table;
+    margin: auto;
+}
+
+body {
+    display: table-cell;
+    vertical-align: middle;
+}
+h1 {
+	color: #1C94C4;
+	font-size: 1.2em;
+}
+h3{
+	
+	font-size: 1em;
+}  
+   
+.value {
+    width: 800px;
+} 
+
+.fc-title{
+ 	font-size: 2em;
+ 	text-align: center; 
+}
+.event-color-success{
+	background-color: green !important;
+}
+.event-color-fail{
+	background-color: red !important;
+}
+.fc-event-container{
+	background-color: red;
+}
+.input{
+	box-shadow:none;
+	width: 20em;
+	float: right;
+}
+/* select menu */
+.inputSelect{
+	box-shadow:none;
+	width: 18.9em !important;
+	float: right;
+}
+
+.name-input{
+	box-shadow: none;
+	margin-left: 12.2em !important;
+	width: 20em;
+}
+.email-input{
+	box-shadow: none;
+	margin-left: 11em !important;
+	width: 20em;
+}
+.separator-style{
+	width: 50em;
+	margin: 1em 0 1em 0;
+}
+
+.schedule-style{
+	margin-top: 2em;
+}
+.ui-selectonemenu .ui-selectonemenu-trigger .ui-icon{
+	margin-top: 0.4em !important;
+}
+.ui-selectonemenu{	
+	padding-right: 1em !important;
+}
+.ui-inputfield, .ui-widget-content .ui-inputfield, .ui-widget-header .ui-inputfield{
+	box-shadow: none;
+}
+tr{
+	height: 2em;
+}
+.country-image{
+	width: 1.3em;
+	margin: 0.5em;
+	
+}
+
+/* icon on delete button*/
+.icon-bin {
+    width: 1.4em;
+    margin-top: 5px;
+}	
+
+#language{
+	background-color: orange;
+}
+/* Admin pages  */
+
+
+/* main container */
+.container {
+	max-width: 50em;
+}
+
+/* titles */
+.title {
+	text-align: center;
+	padding-top: 2em;;
+}
+/* set dataTable at center */
+.table {
+	margin: 0 auto;
+	padding-bottom: 20em;
+}
+
+td.fc-day-number.fc-past{
+	opacity: 0.3;
+}
+
+.ui-widget-header .ui-inputfield, .ui-widget-content .ui-inputfield {
+	font-weight: normal;
+	vertical-align: middle;
+	width: 93%;
+}
+
+.ui-widget-header .ui-inputfield, .ui-widget-content .ui-inputfield.inputTime
+	{
+	font-weight: normal;
+	width: 86%;
+	margin-top: 4px;
+	margin-bottom: 4px;
+}
+
+/* data table view */
+.columnButtonInside {
+	display: flex;
+}
+
+/* overrides components.css from default theme */
+.ui-button {
+	display: inline-block;
+	position: relative;
+	padding: 0;
+	margin-right: .1em;
+	text-decoration: none !important;
+	cursor: pointer;
+	text-align: center;
+	zoom: 1;
+	overflow: visible;
+	height: 29px !important;
+	margin-top: 0px !important;
+}
+
+/* submit button */
+.submitButton {
+	margin-top: 20px !important;
+	margin-right:  7.7% !important;
+	float: right;
+}
+
+.submitButton span {
+    padding: .3em 1em;
+    background-color: #1C94C4 !important;
+    color: white !important;
+    border-radius: 3px !important;
+}
+.submitButton span:hover {
+  
+    background-color: white !important;
+    color: #1C94C4 !important;
+   
+}
+.ui-datatable tbody td {
+text-align: center;
+}
+
+/*header style*/
+#main-header {
+	background-color: #E9EBEC
+}
+
+#main-container {
+	
+}
+
+
+nav {
+  margin-top: 8px;
+  padding: 24px;
+  text-align: center;
+  font-family: Raleway;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+}
+#nav-1 {
+  background: #1C94C4;
+}
+
+.link-1 {
+  transition: 0.3s ease;
+  background: #1C94C4;
+  color: #ffffff;
+  font-size: 20px;
+  text-decoration: none;
+  border-top: 4px solid #1C94C4;
+  border-bottom: 4px solid #1C94C4;
+  padding: 20px 0;
+  margin: 0 20px;
+}
+.link-1:hover {
+  border-top: 4px solid #ffffff;
+  border-bottom: 4px solid #ffffff;
+  padding: 6px 0; 
+}
+.countryLocale {
+	float: right;
+}
+
+/* table style */
+
+.ui-datatable thead th, .ui-datatable tfoot td {
+    text-align: center;
+    border-top-width: 9px !important;
+}
+
+.ui-datatable thead th, .ui-datatable tbody td, .ui-datatable tfoot td, .ui-datatable tfoot th {
+    padding: 4px 10px;
+    overflow: hidden;
+    border-width: 1px;
+    border-style: solid;
+    border-left: none !important;
+    border-right: none !important;
+    border-style: dashed;
+}
+
+.ui-widget-content {
+    border: 1px solid #dddddd;
+    background: #eeeeee url("/javax.faces.resource/images/ui-bg_highlight-soft_100_eeeeee_1x100.png.xhtml?ln=primefaces-ui-lightness") 50% top repeat-x;
+    color: #333333;
+    border-right: none !important;
+    border-style: dashed;
+}
+
+.ui-datatable tbody td {
+    border-color: inherit;
+    border-top-style: dashed  !important;
+    border-bottom-style: dashed  !important;
+}
+.ui-datatable thead th, .ui-datatable tbody td, .ui-datatable tfoot td, .ui-datatable tfoot th {
+    padding: 4px 10px;
+    overflow: hidden;
+    border-width: 1px;
+    border-style: solid;
+   
+}
