@@ -1,0 +1,41 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="mainTemplate.xhtml">
+	<h:head>
+
+	</h:head>
+	<ui:define name="body">
+
+		<h:form styleClass="schedule-input-form">
+
+			<p:growl id="messages" showDetail="true" />
+			<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+				<p:outputLabel for="selectUserTypeLogin" />
+				<p:selectOneRadio id="selectUserTypeLogin"
+					value="#{userController.doctorUser}">
+					<f:selectItem itemLabel="Доктор " itemValue="#{true}" />
+					<f:selectItem itemLabel="Пациент " itemValue="#{false}" />
+					<p:ajax process="selectUserTypeLogin" update="@form" />
+				</p:selectOneRadio>
+			</h:panelGrid>
+			<h:panelGrid id="panel" columnClasses="value" columns="2">
+
+				<p:outputLabel for="username" value="Потребителско име:" />
+				<p:inputText value="#{userController.username}"
+					id="username" />
+
+				<p:outputLabel for="password" value="Парола:" />
+				<p:inputText type="password" value="#{userController.password}"
+					id="password" />
+			</h:panelGrid>
+
+			<p:commandButton value="Вход" styleClass="blue-button" ajax="false"
+				action="#{userController.login}" />
+			
+		</h:form>
+	</ui:define>
+
+</ui:composition>

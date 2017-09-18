@@ -47,7 +47,9 @@ public abstract class AbstractFacade<T> implements Serializable {
 	 *            the entity
 	 */
 	public void create(T entity) {
-		getEntityManager().getTransaction().begin();
+		if (!getEntityManager().getTransaction().isActive()) {
+			getEntityManager().getTransaction().begin();
+		}
 		getEntityManager().persist(entity);
 		getEntityManager().getTransaction().commit();
 	}
@@ -60,7 +62,9 @@ public abstract class AbstractFacade<T> implements Serializable {
 	 * @return the t
 	 */
 	public T edit(T entity) {
-		getEntityManager().getTransaction().begin();
+		if (!getEntityManager().getTransaction().isActive()) {
+			getEntityManager().getTransaction().begin();
+		}
 		T mergedEntity = getEntityManager().merge(entity);
 		getEntityManager().getTransaction().commit();
 		return mergedEntity;

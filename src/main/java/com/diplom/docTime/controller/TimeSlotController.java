@@ -7,12 +7,15 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
@@ -25,16 +28,23 @@ import org.primefaces.model.DefaultScheduleModel;
 import org.primefaces.model.ScheduleEvent;
 import org.primefaces.model.ScheduleModel;
 
+import com.diplom.docTime.facade.DoctorFacade;
+import com.diplom.docTime.facade.PatientFacade;
 import com.diplom.docTime.facade.TimeSlotFacade;
+import com.diplom.docTime.facade.UserFacade;
 import com.diplom.docTime.model.BreakTime;
+import com.diplom.docTime.model.City;
 import com.diplom.docTime.model.Doctor;
+import com.diplom.docTime.model.DoctorType;
+import com.diplom.docTime.model.Hospital;
+import com.diplom.docTime.model.Patient;
 import com.diplom.docTime.model.TimeCapacity;
 import com.diplom.docTime.model.TimeSlot;
 import com.diplom.docTime.model.WorkingTime;
 
 
 @Named(value="timeSlotController")
-@RequestScoped
+@SessionScoped
 public class TimeSlotController extends AbstractController<TimeSlot> implements Serializable{
 
 	private static final long serialVersionUID = -682385338296072513L;
@@ -50,6 +60,12 @@ public class TimeSlotController extends AbstractController<TimeSlot> implements 
 	private ScheduleModel eventModel;
 	private DefaultScheduleEvent event = new DefaultScheduleEvent();
 
+	private List<Doctor> doctors;
+
+	private List<Hospital> hospitals;
+
+	private List<DoctorType> doctorTypes;
+	
 	private String view;
 	private String date;
 	
@@ -62,6 +78,27 @@ public class TimeSlotController extends AbstractController<TimeSlot> implements 
 	@Inject
 	private TimeSlotFacade timeSlotFacade;
 
+	@Inject
+	private DoctorFacade doctorFacade;
+	
+	@Inject 
+	private PatientFacade patientFacade;
+	
+	@Inject 
+	private UserFacade userFacade;
+	
+	@Inject
+	private UserController user;
+	
+	private Patient patient;
+	
+	private City city;
+	
+	private Hospital hospital;
+	
+	private DoctorType doctorType;
+	
+	private Doctor doctor;
 	
 	public TimeSlotController() {
 		super(TimeSlot.class);
@@ -70,17 +107,18 @@ public class TimeSlotController extends AbstractController<TimeSlot> implements 
 	@PostConstruct
 	@Override
 	public void init() {
-				
-		Doctor doctor = new Doctor();
+		patient = patientFacade.find(user.getPatient().getId());
+
+		//Doctor doctor = new Doctor();//doctorFacade.find(262);
 		
 		timeSlot = new TimeSlot();
 		timeSlot.setDoctor(doctor);
-
+		timeSlot.setPatient(patient);
 		eventModel = new DefaultScheduleModel();
 		view = MONTH_VIEW;
 
 		currentDate = new Date();
-		date = currentDate.toString();			
+		date = currentDate.toString();					
 	}
 
 	public void getTimeSlotsForPlace(){
@@ -100,6 +138,7 @@ public class TimeSlotController extends AbstractController<TimeSlot> implements 
 	}
 	
 	public void getTimeSlotsForService() {
+		timeSlot.setDoctor(getDoctor());
 		List<WorkingTime> workDays = timeSlotFacade.getConsulateWorkingTime(timeSlot.getDoctor());
 		List<TimeCapacity> consulerServices = timeSlotFacade.getTimeCapacityService(timeSlot.getDoctor());
 		
@@ -119,6 +158,24 @@ public class TimeSlotController extends AbstractController<TimeSlot> implements 
 		}	
 	}
 
+	public List<Hospital> getHospitalFotCity() {
+		hospitals = userFacade.getHospitalsForCity(getCity().getId());
+		
+		return hospitals;
+	}
+	
+	public List<DoctorType> getDocTypesForHospitals() {
+		doctorTypes = userFacade.getDoctorTypesForHospital(getHospital().getId());
+		
+		return doctorTypes;
+	}
+	
+	public List<Doctor> getDoctorsbyDocType() {
+		doctors = userFacade.getDocotrotByDoctorType(getDoctorType().getId());
+		
+		return doctors;
+	}
+	
 	private void addScheduleEvents(List<WorkingTime> workDays, Calendar startDate, Calendar endDate) {
 		long timeDifference;
 		long timeSlotsCount;
@@ -303,6 +360,20 @@ public class TimeSlotController extends AbstractController<TimeSlot> implements 
 	}
 	
 	public String save(){
+//		patient.setFirstName(getSelected().getPatient().getFirstName());
+//		patient.setLastName(getSelected().getPatient().getFirstName());
+//		patient.setPhoneNumber(getSelected().getPatient().getPhoneNumber());
+//		patient.setEmail(getSelected().getPatient().getPhoneNumber());
+//		
+//		timeSlot.setPatient(patient);
+		
+		Set<Patient> patients = new HashSet<>();
+		patients.add(timeSlot.getPatient());
+		
+		timeSlot.getDoctor().setPatients(patients);
+		
+		
+		doctorFacade.edit(timeSlot.getDoctor());
 		timeSlotFacade.create(timeSlot);
 
 		return "shedule.xhtml";	
@@ -353,5 +424,61 @@ public class TimeSlotController extends AbstractController<TimeSlot> implements 
 
 	public void setTimeSlot(TimeSlot timeSlot) {
 		this.timeSlot = timeSlot;
+	}
+
+	public City getCity() {
+		return city;
+	}
+
+	public void setCity(City city) {
+		this.city = city;
+	}
+
+	public List<Doctor> getDoctors() {
+		return doctors;
+	}
+
+	public void setDoctors(List<Doctor> doctors) {
+		this.doctors = doctors;
+	}
+
+	public List<Hospital> getHospitals() {
+		return hospitals;
+	}
+
+	public void setHospitals(List<Hospital> hospitals) {
+		this.hospitals = hospitals;
+	}
+
+	public Hospital getHospital() {
+		return hospital;
+	}
+
+	public void setHospital(Hospital hospital) {
+		this.hospital = hospital;
+	}
+
+	public DoctorType getDoctorType() {
+		return doctorType;
+	}
+
+	public void setDoctorType(DoctorType doctorType) {
+		this.doctorType = doctorType;
+	}
+
+	public List<DoctorType> getDoctorTypes() {
+		return doctorTypes;
+	}
+
+	public void setDoctorTypes(List<DoctorType> doctorTypes) {
+		this.doctorTypes = doctorTypes;
+	}
+
+	public Doctor getDoctor() {
+		return doctor;
+	}
+
+	public void setDoctor(Doctor doctor) {
+		this.doctor = doctor;
 	}
 }

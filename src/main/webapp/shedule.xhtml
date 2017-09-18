@@ -1,58 +1,115 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-   xmlns:h="http://java.sun.com/jsf/html"
-   xmlns:f="http://java.sun.com/jsf/core"
-   xmlns:c="http://java.sun.com/jsp/jstl/core"
-   xmlns:ui="http://java.sun.com/jsf/facelets"
-   xmlns:p="http://primefaces.org/ui" template="template.xhtml">
-<h:head>
-	
-</h:head>
-<ui:define name="body">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="template.xhtml">
+	<h:head>
+
+	</h:head>
+	<ui:define name="body">
+
+
 		<h:form styleClass="schedule-input-form">
 			<p:growl id="messages" showDetail="true" />
-		    <h:panelGrid id="panel" columnClasses="value" columns="2">
+			<h:panelGrid id="panel" columnClasses="value" columns="2">
+
+				<p:outputLabel for="city" value="Град" />
+				<p:selectOneMenu converter="#{cityConverter}" id="city"
+					value="#{timeSlotController.city}">
+					<f:selectItem itemLabel="Избери" noSelectionOption="true" />
+					<f:selectItems value="#{cityController.items}" var="ct"
+						itemLabel="#{ct.name}" itemValue="#{ct}" />
+					<p:ajax update="hospital" process="@this"
+						listener="#{timeSlotController.getHospitalFotCity()}" />
+				</p:selectOneMenu>
+				
+				<p:outputLabel for="hospital" value="Болница" />
+				<p:selectOneMenu id="hospital" value="#{timeSlotController.hospital}"
+					converter="#{hospitalConverter}">
+					<f:selectItem itemLabel="Избери" noSelectionOption="true" />
+					<f:selectItems value="#{timeSlotController.hospitals}" var="hosp"
+						itemLabel="#{hosp.name}"
+						itemValue="#{hosp}" />
+						<p:ajax update="docType" process="@this"
+						listener="#{timeSlotController.getDocTypesForHospitals()}" />
+				</p:selectOneMenu>
+				
+				<p:outputLabel for="docType" value="Специалност" />
+				<p:selectOneMenu converter="#{docTypeConv}" id="docType"
+					value="#{timeSlotController.doctorType}">
+					<f:selectItem itemLabel="Избери" noSelectionOption="true" />
+					<f:selectItems value="#{timeSlotController.doctorTypes}" var="dType"
+						itemLabel="#{dType.type}" itemValue="#{dType}" />
+						<p:ajax update="doctor" process="@this"
+						listener="#{timeSlotController.getDoctorsbyDocType()}" />
+				</p:selectOneMenu>
+				
+				<p:outputLabel for="doctor" value="Доктор" />
+				<p:selectOneMenu converter="#{doctorConverter}" id="doctor"
+					value="#{timeSlotController.doctor}">
+					<f:selectItem itemLabel="Избери" noSelectionOption="true" />
+					<f:selectItems value="#{timeSlotController.doctors}" var="doc"
+						itemLabel="д-р. #{doc.firstName} #{doc.lastName}" itemValue="#{doc}" />
+					<p:ajax event="change" listener="#{timeSlotController.getTimeSlotsForService}" update="@form"/>	
+				</p:selectOneMenu>
 				
 				<p:outputLabel for="personName" value="Име: " />
-				<p:inputText value = "#{timeSlotController.timeSlot.patient.firstName}" id="personName"/>
-				
+				<p:inputText
+					value="#{timeSlotController.timeSlot.patient.firstName}"
+					id="personName" />
+
 				<p:outputLabel for="personFamilyName" value="Фамилия" />
-				<p:inputText value = "#{timeSlotController.timeSlot.patient.lastName}" id="personFamilyName"/>
-			 	
-			 	<p:outputLabel for="phoneNumber" value="Телефонен номер" />
-				<p:inputText value = "#{timeSlotController.timeSlot.patient.phoneNumber}" id="phoneNumber"/>
-			 	
-			 	<p:outputLabel for="personEmail" value="Имейл" />
-				<p:inputText value = "#{timeSlotController.timeSlot.patient.email}" id="personEmail"/>
-		
-				
-		    </h:panelGrid>
-		    <p:schedule id="schedule" value="#{timeSlotController.eventModel}"
-	        	locale="#{messages.locale}"
-	        	minTime="9:00"
-	        	maxTime="18:30"
-	        	initialDate="#{timeSlotController.currentDate}"
-	        	styleClass="schedule-style"
-	        	widgetVar="myschedule" 
-		        view="#{timeSlotController.view}"
-		        slotMinutes="30"
-		        allDaySlot="false"
-		        aspectRatio="2.1"
-		        centerHeaderTemplate="title"
-		        resizable="false"
-		        axisFormat="H:mm"
-		        timeFormat="H:mm">
-		        	
-		        <p:ajax event="dateSelect" listener="#{timeSlotController.onDateSelect}" update="schedule" />
-		        <p:ajax event="eventSelect" listener="#{timeSlotController.onEventSelect}" update="schedule messages" />
-		 
-		    </p:schedule>
-		   		
-		   	<p:commandButton
-					value="#{messages['editWorkTimeAdminPage.buttonSave']}"
-					styleClass="blue-button"
-					ajax="true"
-					action="#{timeSlotController.save}" />
+				<p:inputText value="#{timeSlotController.timeSlot.patient.lastName}"
+					id="personFamilyName" />
+
+				<p:outputLabel for="phoneNumber" value="Телефонен номер" />
+				<p:inputText
+					value="#{timeSlotController.timeSlot.patient.phoneNumber}"
+					id="phoneNumber" />
+
+				<p:outputLabel for="personEmail" value="Имейл" />
+				<p:inputText value="#{timeSlotController.timeSlot.patient.email}"
+					id="personEmail" />
+
+
+			</h:panelGrid>
+			<p:schedule id="schedule" value="#{timeSlotController.eventModel}"
+				locale="#{messages.locale}" minTime="9:00" maxTime="18:30"
+				initialDate="#{timeSlotController.currentDate}"
+				styleClass="schedule-style" widgetVar="myschedule"
+				view="#{timeSlotController.view}" slotMinutes="30"
+				allDaySlot="false" aspectRatio="2.1" centerHeaderTemplate="title"
+				resizable="false" axisFormat="H:mm" timeFormat="H:mm">
+
+				<p:ajax event="dateSelect"
+					listener="#{timeSlotController.onDateSelect}" update="schedule" />
+				<p:ajax event="eventSelect"
+					listener="#{timeSlotController.onEventSelect}"
+					update="schedule messages eventDetails"
+					oncomplete="PF('eventDialog').show();" />
+
+			</p:schedule>
+
+			<p:dialog widgetVar="eventDialog" header="Event Details"
+				showEffect="clip" hideEffect="clip">
+				<h:panelGrid id="eventDetails" columns="2">
+					<p:outputLabel for="title" value="Titles:" />
+					<p:inputText id="title"
+						value="д-р. #{timeSlotController.timeSlot.doctor.firstName} #{timeSlotController.timeSlot.doctor.lastName}"
+						required="true" readonly="true"/>
+
+					<p:outputLabel for="from" value="От:" />
+					<p:calendar id="from" value="#{timeSlotController.event.startDate}"
+						timeZone="UTC+2" pattern="dd/MM/yyyy HH:mm" readonly="true"/>
+
+					<p:commandButton type="reset" value="Reset" />
+					<p:commandButton value="Запази" styleClass="blue-button"
+						process="@form" ajax="false" action="#{timeSlotController.save}"
+						oncomplete="PF('myschedule').update();PF('eventDialog').hide();" />
+				</h:panelGrid>
+			</p:dialog>
 		</h:form>
-</ui:define>
+	</ui:define>
 
 </ui:composition>

@@ -1,0 +1,32 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="template.xhtml">
+	<h:head>
+
+	</h:head>
+	<ui:define name="body">
+
+		<h:form id="form">
+			<p:dataTable var="ts"
+				value="#{userController.getAllPatientPrescriptions()}">
+				<p:column headerText="Дата">
+					<h:outputText value="#{ts.date}" />
+				</p:column>
+
+				<p:column headerText="Доктор">
+					<h:outputText value="д-р. #{ts.doctor.firstName}  #{ts.doctor.lastName}" />
+				</p:column>
+				
+				<p:column headerText="Рецепта">
+					<p:inputTextarea rows="6" cols="33"
+							value="#{ts.patient.prescription.get(0).text}" readonly="true"/>
+				</p:column>
+
+			</p:dataTable>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:k="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui" contentType="text/html">
+	<html>
+<h:head>
+	<h:outputScript library="js" name="locales.js" />
+	<h:outputStylesheet name="style.css" library="css" />
+
+
+</h:head>
+<h:body>
+	<header>
+		<div class="main-header">
+			<div class="logo-container">
+				<img src="resources/img/logo.png" alt="logo" />
+			</div>
+			<div class="logo-text"></div>
+			<span class="application-title">Система за запазване на часове
+				при лекар <b class="green-background">DocTime</b> <br />
+			</span>
+
+			<div class="search-panel">
+
+				<div class="search-field">
+					<input type="text" placeholder="Търси..." />
+					<button type="submit" class="search-button"></button>
+				</div>
+			</div>
+		</div>
+		<div class="breadcrumb">
+			<nav class="navigation">
+				<ul>
+					<li><a href="login.xhtml">Вход</a></li>
+					<li><a href="register.xhtml">Регистрация</a></li>
+				</ul>
+			</nav>
+		</div>
+	</header>
+
+	<div class="right-big-input">
+		<ui:insert name="body" />
+
+		<!-- <div class="button-group">
+					<a href="s3.html"><input type="button" class="blue-button" value="Назад" /></a>
+					<a href="index-user.html"><input type="button" class="red-button" value="Напред" /></a>
+				</div>			  -->
+	</div>
+
+</h:body>
+	</html>
+</f:view>

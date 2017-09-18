@@ -1,0 +1,61 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="doctorTemplate.xhtml">
+	<h:head>
+
+	</h:head>
+	<ui:define name="body">
+
+		<h:form id="form">
+			<p:dataTable var="patient"
+				value="#{userController.getDoctorReservation()}">
+				<p:column headerText="First Name">
+					<h:outputText value="#{patient.firstName}" />
+				</p:column>
+
+				<p:column headerText="Last Name">
+					<h:outputText value="#{patient.lastName}" />
+				</p:column>
+
+				<p:column headerText="Phone Number">
+					<h:outputText value="#{patient.phoneNumber}" />
+				</p:column>
+
+				<p:column headerText="Email">
+					<h:outputText value="#{patient.email}" />
+				</p:column>
+
+				<p:column style="width:32px;text-align: center">
+					<p:commandButton update=":form:patientDetail"
+						oncomplete="PF('patientDialog').show()" value="Обработи"
+						title="View">
+						<f:setPropertyActionListener value="#{patient}"
+							target="#{userController.patient}" />
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+
+			<p:dialog header="Patient Info" widgetVar="patientDialog"
+				modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+				<p:outputPanel id="patientDetail" style="text-align:center;">
+					<p:panelGrid columns="1"
+						rendered="#{not empty userController.patient}"
+						columnClasses="value">
+
+						<h:outputText value="Рецепта: " />
+						<p:inputTextarea rows="6" cols="33"
+							value="#{userController.prescription}" />
+						<p:commandButton value="Запази" styleClass="blue-button"
+							process="@form" ajax="false" action="#{userController.save}"
+							oncomplete="PF('patientDialog').update();PF('patientDialog').hide();" />
+
+					</p:panelGrid>
+				</p:outputPanel>
+			</p:dialog>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

@@ -1,0 +1,106 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="mainTemplate.xhtml">
+	<h:head>
+
+	</h:head>
+	<ui:define name="body">
+
+		<h:form styleClass="schedule-input-form">
+
+			<p:growl id="messages" showDetail="true" />
+			<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+				<p:outputLabel for="selectUserType" />
+				<p:selectOneRadio id="selectUserType"
+					value="#{userController.doctorUser}">
+					<f:selectItem itemLabel="Доктор " itemValue="#{true}" />
+					<f:selectItem itemLabel="Пациент " itemValue="#{false}" />
+					<p:ajax process="selectUserType" update="@form" />
+				</p:selectOneRadio>
+			</h:panelGrid>
+			<h:panelGrid id="panel" columnClasses="value" columns="2"
+				rendered="#{userController.doctorUser}">
+
+				<p:outputLabel for="city" value="Град" />
+				<p:selectOneMenu converter="#{cityConverter}" id="city"
+					value="#{userController.doctor.hospital.city}">
+					<f:selectItem itemLabel="Избери" noSelectionOption="true" />
+					<f:selectItems value="#{cityController.items}" var="ct"
+						itemLabel="#{ct.name}" itemValue="#{ct}" />
+				</p:selectOneMenu>
+
+				<p:outputLabel for="hospital" value="Болница" />
+				<p:selectOneMenu converter="#{hospitalConverter}" id="hospital"
+					value="#{userController.doctor.hospital}">
+					<f:selectItem itemLabel="Избери" noSelectionOption="true" />
+					<f:selectItems value="#{hospitalController.items}" var="hs"
+						itemLabel="#{hs.name}" itemValue="#{hs}" />
+				</p:selectOneMenu>
+
+				<p:outputLabel for="docType" value="Специалност" />
+				<p:selectOneMenu converter="#{docTypeConv}" id="docType"
+					value="#{userController.doctor.doctorType}">
+					<f:selectItem itemLabel="Избери" noSelectionOption="true" />
+					<f:selectItems value="#{doctorTypeController.items}" var="dType"
+						itemLabel="#{dType.type}" itemValue="#{dType}" />
+				</p:selectOneMenu>
+
+				<p:outputLabel for="personName" value="Име: " />
+				<p:inputText value="#{userController.doctor.firstName}"
+					id="personName" />
+
+				<p:outputLabel for="personMidName" value="Бащино им: " />
+				<p:inputText value="#{userController.doctor.middleName}"
+					id="personMidName" />
+
+
+				<p:outputLabel for="personFamilyName" value="Фамилия" />
+				<p:inputText value="#{userController.doctor.lastName}"
+					id="personFamilyName" />
+
+				<p:outputLabel for="username" value="Потребителско име:" />
+				<p:inputText value="#{userController.doctor.username}" id="username" />
+
+				<p:outputLabel for="password" value="Парола:" />
+				<p:inputText type="password"
+					value="#{userController.doctor.password}" id="password" />
+
+
+			</h:panelGrid>
+
+			<h:panelGrid id="patientPanel"
+				rendered="#{!userController.doctorUser}" columnClasses="value"
+				columns="2">
+
+				<p:outputLabel for="patientName" value="Име: " />
+				<p:inputText value="#{userController.patient.firstName}"
+					id="patientName" />
+
+				<p:outputLabel for="patientMidName" value="Бащино им: " />
+				<p:inputText value="#{userController.patient.middleName}"
+					id="patientMidName" />
+
+
+				<p:outputLabel for="patientFamilyName" value="Фамилия" />
+				<p:inputText value="#{userController.patient.lastName}"
+					id="patientFamilyName" />
+
+				<p:outputLabel for="patientUsername" value="Потребителско име:" />
+				<p:inputText value="#{userController.patient.username}"
+					id="patientUsername" />
+
+				<p:outputLabel for="patientPassword" value="Парола:" />
+				<p:inputText type="password"
+					value="#{userController.patient.password}" id="patientPassword" />
+			</h:panelGrid>
+
+			<p:commandButton value="Запази" styleClass="blue-button" ajax="false"
+				action="#{userController.registerUser}" />
+
+		</h:form>
+	</ui:define>
+
+</ui:composition>

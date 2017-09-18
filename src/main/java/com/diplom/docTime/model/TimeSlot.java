@@ -27,9 +27,9 @@ public class TimeSlot {
 	@ManyToOne(fetch = FetchType.EAGER)
 	private Doctor doctor;
 	
-	@ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.PERSIST)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Patient patient;
-
+	
 	public int getId() {
 		return id;
 	}

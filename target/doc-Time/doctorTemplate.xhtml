@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:k="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui" contentType="text/html">
+	<html>
+<h:head>
+	<h:outputScript library="js" name="locales.js" />
+	<h:outputStylesheet name="style.css" library="css" />
+
+</h:head>
+<h:body>
+	<header>
+		<div class="main-header">
+			<div class="logo-container">
+				<img src="resources/img/logo.png" alt="logo" />
+			</div>
+
+			<span class="application-title">Система за запазване на часове
+				при лекар <b class="green-background">DocTime</b> <br />
+			</span>
+			<h2 class="greeting-user">Здравейте, #{userController.doctor.username} </h2>
+
+			<h:form styleClass="tmpForm">
+				<p:commandButton action="login.xhtml?faces-redirect=true"
+					value="Изход" id="logout" actionListener="#{userController.logout}"
+					ajax="false" styleClass="logoutBTN" />
+			</h:form>
+
+		</div>
+		<div class="breadcrumb">
+			<h:panelGroup id="userPanel" rendered="#{!userController.doctorUser}">
+			<nav class="navigation">
+				<ul>
+					<li><a href="index.xhtml">Начало</a></li>
+					<li><a href="shedule.xhtml">Запазване на часове</a></li>
+					<li><a href="patientPrescriptions.xhtml">Прегледи</a></li>
+				</ul>
+			</nav>
+		</h:panelGroup>
+		<h:panelGroup id="docPanel" rendered="#{userController.doctorUser}">
+			<nav class="navigation">
+				<ul>
+					<li><a href="index.xhtml">Начало</a></li>
+					<li><a href="editWorkTimeAdminPage.xhtml">Работно време</a></li>
+					<li><a href="editTimeCapacityAdminPage.xhtml">Работен капацитет</a></li>
+					<li><a href="allPatiensts.xhtml">Пациенти</a></li>
+				</ul>
+			</nav>
+		</h:panelGroup>
+			
+		</div>
+	</header>
+	<div class="main-content">
+
+		<!-- <div class="button-group">
+					<a href="s3.html"><input type="button" class="blue-button" value="Назад" /></a>
+					<a href="index-user.html"><input type="button" class="red-button" value="Напред" /></a>
+				</div>			  -->
+		<ui:insert name="body" />
+	</div>
+</h:body>
+	</html>
+</f:view>

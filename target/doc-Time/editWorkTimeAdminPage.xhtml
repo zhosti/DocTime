@@ -8,7 +8,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:k="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:pe="http://primefaces.org/ui/extensions"
-	template="template.xhtml">
+	template="doctorTemplate.xhtml">
 
 	<h:head>
 		<title>#{messages['editWorkTimeAdminPage.title']}</title>
@@ -18,8 +18,7 @@
 	<ui:define name="body">
 		<div class="container">
 			<div class="title">
-				<h1>#{messages['editWorkTimeAdminPage.header']}</h1>
-				<h3>#{messages['editWorkTimeAdminPage.subHeader']}</h3>
+				<h1>Работно време</h1>
 			</div>
 			<div class="table">
 				<h:form id="myform">
@@ -28,19 +27,19 @@
 						<p:columnGroup type="header">
 							<p:row>
 								<p:column rowspan="2"
-									headerText="#{messages['editWorkTimeAdminPage.day']}">
+									headerText="Дни">
 									<h:outputText value="#{time.dayOfWeek}" />
 								</p:column>
 								<p:column colspan="2"
-									headerText="#{messages['editWorkTimeAdminPage.hour']}" />
+									headerText="Час" />
 
 								<p:column rowspan="2" />
 
 							</p:row>
 
 							<p:row>
-								<p:column headerText="#{messages['editWorkTimeAdminPage.from']}" />
-								<p:column headerText="#{messages['editWorkTimeAdminPage.to']}" />
+								<p:column headerText="от" />
+								<p:column headerText="до" />
 							</p:row>
 						</p:columnGroup>
 

@@ -10,75 +10,56 @@
 	<h:outputScript library="js" name="locales.js" />
 	<h:outputStylesheet name="style.css" library="css" />
 
-
 </h:head>
 <h:body>
 	<header>
-			<div class="main-header">
-				<div class="logo-container">
-					<img src="resources/img/logo.jpg" alt="logo" />
-				</div>
-				<div class="logo-text">
-					
-				</div>
-				<span class="application-title">Система за запазване на часове при лекар <b class="green-background">DocTime</b>
-				<br />	
-				</span>
-
-				<div class="search-panel">
-					
-					<div class="search-field">
-						<input type="text" placeholder="Търси..." />
-						<button type="submit" class="search-button" ></button>
-					</div>
-				</div>
+		<div class="main-header">
+			<div class="logo-container">
+				<img src="resources/img/logo.png" alt="logo" />
 			</div>
-			<div class="breadcrumb">
-				<div class="tree-path">
-					Начало | Визови услуги | Резервиране на интервю
-				</div>
-				<nav class="navigation">
-					<ul>
-						<li>
-							<a href="page-1.html">Начало</a>
-						</li>
-						<li>
-							<a href="#">Запазване на часове</a>
-						</li>
-						<li>
-							<a href="page-2.html">Медицинска история</a>
-						</li>
 
-					</ul>
+			<span class="application-title">Система за запазване на часове
+				при лекар <b class="green-background">DocTime</b> <br />
+			</span>
+			<h2 class="greeting-user">Здравейте, #{userController.patient.username} </h2>
 
-				</nav>
-			</div>
-		</header>
-		<div class="main-content">
-			<div class="small-left-input">
-	
-	
-				<a class="step-1"  href="s6.html"><button class="accordion">Запазване на час</button></a>
-				<div id="foo" class="panel">
-				  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-				</div>
-			
-			</div>
-							
-			<div class="right-big-input">
-				<div class="whole-page-input">
-					<div class="bredcrumb-title">
-					Резервиране на интервю
-					</div>
-				</div>
-					<ui:insert name="body" />
-					
-					<!-- <div class="button-group">
+			<h:form styleClass="tmpForm">
+				<p:commandButton action="login.xhtml?faces-redirect=true"
+					value="Изход" id="logout" actionListener="#{userController.logout}"
+					ajax="false" styleClass="logoutBTN" />
+			</h:form>
+
+		</div>
+		<div class="breadcrumb">
+			<h:panelGroup id="userPanel" rendered="#{!userController.doctorUser}">
+			<nav class="navigation">
+				<ul>
+					<li><a href="index.xhtml">Начало</a></li>
+					<li><a href="shedule.xhtml">Запазване на часове</a></li>
+					<li><a href="patientPrescriptions.xhtml">Прегледи</a></li>
+				</ul>
+			</nav>
+		</h:panelGroup>
+		<h:panelGroup id="docPanel" rendered="#{userController.doctorUser}">
+			<nav class="navigation">
+				<ul>
+					<li><a href="index.xhtml">Начало</a></li>
+					<li><a href="editWorkTimeAdminPage.xhtml">Работно време</a></li>
+					<li><a href="editTimeCapacityAdminPage.xhtml">Работен капацитет</a></li>
+					<li><a href="allPatients.xhtml">Пациенти</a></li>
+				</ul>
+			</nav>
+		</h:panelGroup>
+		</div>
+	</header>
+	<div class="main-content">
+
+		<!-- <div class="button-group">
 					<a href="s3.html"><input type="button" class="blue-button" value="Назад" /></a>
 					<a href="index-user.html"><input type="button" class="red-button" value="Напред" /></a>
 				</div>			  -->
-	        </div>
-        </div>
+		<ui:insert name="body" />
+	</div>
 </h:body>
 	</html>
 </f:view>

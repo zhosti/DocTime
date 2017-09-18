@@ -1,15 +1,39 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html">
-
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="template.xhtml">
 	<h:head>
-	
-	</h:head>
 
-	<h:body>
-		<h1>Doc Time STARTttttt</h1>
+
+	</h:head>
 	
-	</h:body>
-</html>
+	<ui:define name="body">
+		<!-- Wrapper for slides -->
+
+		<p:graphicImage rendered="#{!userController.doctorUser}" styleClass="patient-img" url="resources/img/healthcare-img.jpg" />
+		<p:graphicImage rendered="#{userController.doctorUser}" styleClass="doc-img" url="resources/img/healthcare22.jpg" />
+		
+		<div class="carousel-caption">
+			<h:form>
+				<h1>
+					DocTime
+				</h1>
+				<h:panelGroup id="patientText" rendered="#{!userController.doctorUser}">
+					<p>		Ви предоствя възможноста бързо и лесно да запазите своя час при лекар</p>
+					<p>само с няколко клика. За да резервирате час натиснете бутона "Запази час"</p>
+				</h:panelGroup>
+				<h:panelGroup id="doctorText" rendered="#{userController.doctorUser}">
+					<p> прави работат ви по лесна и подредена</p>
+					<p>само с няколко клика.</p>
+				</h:panelGroup>
+				<p:commandButton action="shedule.xhtml?faces-redirect=true"
+						value="Запази час" id="gotoShedule"
+						ajax="false" styleClass="blue-button" />
+			</h:form>
+		</div>
+
+	</ui:define>
+
+</ui:composition>

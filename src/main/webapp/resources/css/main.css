@@ -34,9 +34,7 @@ h3{
  	font-size: 2em;
  	text-align: center; 
 }
-.event-color-success{
-	background-color: green !important;
-}
+
 .event-color-fail{
 	background-color: red !important;
 }

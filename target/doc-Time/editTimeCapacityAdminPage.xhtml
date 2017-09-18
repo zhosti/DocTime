@@ -8,7 +8,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:k="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:pe="http://primefaces.org/ui/extensions"
-	template="template.xhtml">
+	template="doctorTemplate.xhtml">
 
 	<h:head>
 		<title>#{messages['editTimeCapacityAdminPage.title']}</title>
@@ -18,7 +18,7 @@
 
 	<ui:define name="body">
 		<div class="container">
-
+			
 			<div class="title">
 				<h1>TEST</h1>
 				<h3>TEST</h3>
@@ -37,13 +37,11 @@
 						</p:column>
 						<p:columns value="#{timeCapacityController.services()}"
 							var="service" headerText="д-р. #{service.doctor.firstName} #{service.doctor.middleName} #{service.doctor.lastName}">
-							<p:inputText
+							<p:inputText styleClass="typeCapacityIType"
 								value="#{timeCapacityController.service(capacity,service.doctor).count}">
 							</p:inputText>
 						</p:columns>
-
 						
-
 					</p:dataTable>
 					<p:commandButton
 						value="Запази"

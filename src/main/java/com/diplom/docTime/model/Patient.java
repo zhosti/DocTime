@@ -1,59 +1,31 @@
 package com.diplom.docTime.model;
 
+import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
 @Entity
-public class Patient {
-	
-	@Id
-	@NotNull
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	private int id;
-	
-	@NotNull
-	private String firstName;
-	
-	@NotNull
-	private String lastName;
-	
+public class Patient extends User{
+
 	private String phoneNumber;
 
 	private String email;
 	
 	@ManyToMany(mappedBy="patients")
 	private Set<Doctor> doctors;
+
+	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+	private List<Prescription> prescription;
 	
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
 	public String getPhoneNumber() {
 		return phoneNumber;
 	}
@@ -68,5 +40,13 @@ public class Patient {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public List<Prescription> getPrescription() {
+		return prescription;
+	}
+
+	public void setPrescription(List<Prescription> prescription) {
+		this.prescription = prescription;
 	}
 }

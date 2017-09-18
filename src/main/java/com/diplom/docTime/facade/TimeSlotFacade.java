@@ -50,28 +50,28 @@ public class TimeSlotFacade extends AbstractFacade<TimeSlot> {
 	}
 
 	public List<TimeCapacity> getTimeCapacityService(Doctor param) {
-		String strQuery = "select t from TimeCapacity t join t.doctor s where s.doctorType = :doctorType and s.count > 0";
+		String strQuery = "select t from TimeCapacity t join t.doctor s where s.doctorType.type = :doctorType and t.count > 0";
 		TypedQuery<TimeCapacity> query = getEntityManager().createQuery(strQuery, TimeCapacity.class);
-		query.setParameter("doctorType", param.getDoctorType());
+		query.setParameter("doctorType", param.getDoctorType().getType());
 		List<TimeCapacity> timeCapacities = query.getResultList();
 
 		return timeCapacities;
 	}
 
 	public Integer getTimeCapacityCountByDay(DoctorType param, DayOfWeek dayOfWeek) {
-//		String strQuery = "select s.count from TimeCapacity t join t.services s where s.serviceNom.code = :serviceNom and t.dayOfWeek = :dayOfweek";
-//		TypedQuery<Integer> query = getEntityManager().createQuery(strQuery, Integer.class);
-//
-//		query.setParameter("serviceNom", param.getCode());
-//		query.setParameter("dayOfweek", dayOfWeek);
-//
-//		Integer availablePlaces = query.getSingleResult();
+		String strQuery = "select t.count from TimeCapacity t join t.doctor d where d.doctorType.type = :serviceNom and t.dayOfWeek = :dayOfweek";
+		TypedQuery<Integer> query = getEntityManager().createQuery(strQuery, Integer.class);
 
-		return 0;
+		query.setParameter("serviceNom", param.getType());
+		query.setParameter("dayOfweek", dayOfWeek);
+
+		Integer availablePlaces = query.getSingleResult();
+
+		return availablePlaces;
 	}
 
 	public long getCountOfReservation(LocalDateTime date, String serviceCode) {
-		String strQuery = "select count(*) from TimeSlot ts where ts.date = :date and ts.service.code = :serviceCode";
+		String strQuery = "select count(*) from TimeSlot ts where ts.date = :date and ts.doctor.doctorType.type = :serviceCode";
 		TypedQuery<Long> query = getEntityManager().createQuery(strQuery, Long.class);
 
 		query.setParameter("date", date);
@@ -81,4 +81,5 @@ public class TimeSlotFacade extends AbstractFacade<TimeSlot> {
 
 		return count;
 	}
+
 }

@@ -97,7 +97,7 @@ public class TimeCapacityController extends AbstractController<TimeCapacity> {
 
 			DayOfWeek dayOfWeek = DayOfWeek.of(i);
 
-			Doctor doctor = doctorFacade.find(1);
+			Doctor doctor = doctorFacade.find(262);
 	
 			capacity.setDayOfWeek(dayOfWeek);
 			capacity.setDoctor(doctor);

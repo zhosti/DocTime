@@ -1,5 +1,6 @@
 package com.diplom.docTime.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -25,7 +26,7 @@ public class Hospital {
 	@NotNull
 	private String PhoneNumber;
 	
-	@ManyToOne(fetch=FetchType.EAGER)
+	@ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
 	private City City;
 
 	public int getId() {
@@ -67,5 +68,52 @@ public class Hospital {
 	public void setCity(City city) {
 		City = city;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((Address == null) ? 0 : Address.hashCode());
+		result = prime * result + ((City == null) ? 0 : City.hashCode());
+		result = prime * result + Id;
+		result = prime * result + ((Name == null) ? 0 : Name.hashCode());
+		result = prime * result + ((PhoneNumber == null) ? 0 : PhoneNumber.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Hospital other = (Hospital) obj;
+		if (Address == null) {
+			if (other.Address != null)
+				return false;
+		} else if (!Address.equals(other.Address))
+			return false;
+		if (City == null) {
+			if (other.City != null)
+				return false;
+		} else if (!City.equals(other.City))
+			return false;
+		if (Id != other.Id)
+			return false;
+		if (Name == null) {
+			if (other.Name != null)
+				return false;
+		} else if (!Name.equals(other.Name))
+			return false;
+		if (PhoneNumber == null) {
+			if (other.PhoneNumber != null)
+				return false;
+		} else if (!PhoneNumber.equals(other.PhoneNumber))
+			return false;
+		return true;
+	}
+	
 	
 }

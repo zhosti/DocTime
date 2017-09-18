@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Locale;
 
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -21,8 +22,10 @@ import org.primefaces.event.CloseEvent;
 import org.primefaces.extensions.event.BeforeShowEvent;
 import org.primefaces.extensions.event.TimeSelectEvent;
 
+import com.diplom.docTime.facade.DoctorFacade;
 import com.diplom.docTime.facade.WorkTimeFacade;
 import com.diplom.docTime.model.BreakTime;
+import com.diplom.docTime.model.Doctor;
 import com.diplom.docTime.model.WorkingTime;
 
 
@@ -31,6 +34,7 @@ import com.diplom.docTime.model.WorkingTime;
  * 
  */
 @Named(value = "workTimeController")
+@RequestScoped
 public class WorkTimeController extends AbstractController<WorkingTime> {
 
 	private static final long serialVersionUID = 1L;
@@ -42,6 +46,8 @@ public class WorkTimeController extends AbstractController<WorkingTime> {
 	@Inject
 	private WorkTimeFacade workingTimeFacade;
 
+	@Inject
+	private DoctorFacade doctorFacade;
 	/**
 	 * Schedule working time list
 	 */
@@ -220,6 +226,10 @@ public class WorkTimeController extends AbstractController<WorkingTime> {
 			breakeTimeList.add(breakTime);
 			time.setDayOfWeek(dayWeek);
 			time.setBreakTime(breakeTimeList);
+
+			Doctor doctor = doctorFacade.find(262);
+
+			time.setDoctor(doctor);
 //			ConsulateNom cons = new ConsulateNom();
 //			cons.setCode("Bul");
 //			cons.setDescription("Bulgaria");
